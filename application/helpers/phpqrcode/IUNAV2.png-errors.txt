@@ -1,0 +1,1 @@
+2020-08-02 14:41:31: imagepng(http://localhost/admines/public/IUNAV2.png): failed to open stream: HTTP wrapper does not support writeable connections2020-08-02 14:42:53: imagepng(http://localhost/admines/public/IUNAV2.png): failed to open stream: HTTP wrapper does not support writeable connections
