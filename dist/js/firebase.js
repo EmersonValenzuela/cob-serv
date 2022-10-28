@@ -78,7 +78,7 @@ function codeverifys() {
 		.then(function (result) {
 			var user = result.user;
 			console.log(user);
-			location.href = "http://localhost/cob-serv/site/login/" + phoneuser;
+			location.href = "https://tramites.cobiene.mil.pe/site/token/" + phoneuser;
 		})
 		.catch(function (error) {
 			errorFirebaseAuth(error.code);
