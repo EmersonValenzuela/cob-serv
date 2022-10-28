@@ -131,13 +131,13 @@ $(document).ready(() => {
 			})
 				.done((res) => {
 					if ((res.status = 1)) {
-                        $(location).attr('href',window.location.origin + '/cob-serv');
+                        $(location).attr('href',window.location.origin);
 					} else {
 						alert(res.error);
 					}
 				})
 				.fail((res) => {
-					alert("ha habido un error");
+					alert(res);
 				});
 		} else {
 			successMsg(
