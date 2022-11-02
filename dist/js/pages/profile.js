@@ -201,6 +201,7 @@ $("#cut-dni").on("click", () => {
 				data: { image: base64data },
 
 				beforeSend: () => {
+
 					wrapp.fadeIn();
 					img.fadeOut();
 
@@ -209,6 +210,7 @@ $("#cut-dni").on("click", () => {
 
 					$("#modal-dni").removeClass("active");
 					$("#content-dni").removeClass("active");
+
 				},
 			})
 				.done((data) => {
@@ -229,7 +231,7 @@ $("#cut-dni").on("click", () => {
 					);
 				})
 				.fail((err) => {
-					alert(err);
+					alert(base64data);
 				});
 		};
 	});
