@@ -175,7 +175,7 @@
 		public function logout()
 		{
 
-			$array_items = array('user_id', 'user_type', 'user_name', 'user_email', 'user_phone', 'user_cip', 'user_dni', 'is_user_login');
+			$array_items = array('user_id', 'user_type', 'user_name', 'user_email', 'user_phone', 'user_cip', 'user_dni', 'is_user_login','user_signature','user_img_dni','user_img_cip','user_img_profile','user_range');
 
 			$this->session->unset_userdata($array_items);
 
