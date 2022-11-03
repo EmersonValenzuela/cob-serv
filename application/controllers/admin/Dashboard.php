@@ -118,7 +118,7 @@
 
 			file_put_contents($imageName, $data);
 
-			$row = $this->Admin_model->update(array('dni_image_user' => $data), $this->session->userdata('user_id'), 'tbl_users');
+			$row = $this->Admin_model->update(array('dni_image_user' => $imageName), $this->session->userdata('user_id'), 'tbl_users');
 			$r = $this->session->set_userdata('user_img_dni', $imageName);
 
 
