@@ -179,7 +179,10 @@ $("#modal-dni").init(() => {
 	};
 });
 $("#cut-dni").on("click", () => {
-	let canva = cropper.getCroppedCanvas(),
+	let canva = cropper.getCroppedCanvas({
+			width: 160,
+			height: 160,
+		}),
 		image = $("#img-cropp-dni").val(),
 		input = $("#input-dni").val(),
 		wrapp = $(".wrapp_"),
@@ -201,7 +204,6 @@ $("#cut-dni").on("click", () => {
 				data: { image: base64data },
 
 				beforeSend: () => {
-
 					wrapp.fadeIn();
 					img.fadeOut();
 
@@ -210,25 +212,26 @@ $("#cut-dni").on("click", () => {
 
 					$("#modal-dni").removeClass("active");
 					$("#content-dni").removeClass("active");
-
 				},
 			})
 				.done((data) => {
-					wrapp.fadeOut();
-					img.fadeIn();
+					if (data.status === 1) {
+						wrapp.fadeOut();
+						img.fadeIn();
 
-					$("#img-dni").attr("src", data.img);
-					image.src = "";
-					input.value = "";
+						$("#img-dni").attr("src", data.img);
+						image.src = "";
+						input.value = "";
 
-					cropper.destroy();
+						cropper.destroy();
 
-					successMsg(
-						"Imagen DNI Actualizado",
-						"Su imagen de DNI ha sido actualizado correctamente",
-						"#ff6849",
-						"success"
-					);
+						successMsg(
+							"Imagen DNI Actualizado",
+							"Su imagen de DNI ha sido actualizado correctamente",
+							"#ff6849",
+							"success"
+						);
+					}
 				})
 				.fail((err) => {
 					alert(base64data);

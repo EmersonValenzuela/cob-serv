@@ -114,19 +114,18 @@
 
 			$data = base64_decode($image_array_2[1]);
 
-			$imageName = 'assets/images/cip/' . time() . '.png';
+			$imageName = 'assets/images/cip/' . time() . '.jpg';
 
 			file_put_contents($imageName, $data);
 
-			$row = $this->Admin_model->update(array('dni_image_user' => $imageName), $this->session->userdata('user_id'), 'tbl_users');
+			$row = $this->Admin_model->update(array('dni_image_user' => $data), $this->session->userdata('user_id'), 'tbl_users');
 			$r = $this->session->set_userdata('user_img_dni', $imageName);
 
 
-				$jsonData['status'] = 1;
-				$jsonData['img'] = $imageName;
-				$jsonData['row'] = $row;
+			$jsonData['status'] = 1;
+			$jsonData['img'] = $imageName;
 
-			
+
 			//Mostrando mi respuesta en formato Json
 			header('Content-type: application/json; charset=utf-8');
 			echo json_encode($jsonData);
