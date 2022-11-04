@@ -114,7 +114,7 @@
 
 			$data = base64_decode($image_array_2[1]);
 
-			$imageName = 'assets/images/cip/' . time() . '.jpg';
+			$imageName = 'assets/images/cip/' . time() . '.png';
 
 			file_put_contents($imageName, $data);
 

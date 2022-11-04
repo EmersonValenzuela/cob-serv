@@ -452,8 +452,8 @@ $("#cut-sign").on("click", () => {
 		}),
 		image = $("#img-cropp-sign"),
 		input = $("#input-sign"),
-		wrapp = $(".wrapp_"),
-		img = $("#img_wrapp");
+		wrapp = $(".wrapp_sign"),
+		img = $("#img_wrapp_sign");
 
 	canva.toBlob(function (blob) {
 		var reader = new FileReader();

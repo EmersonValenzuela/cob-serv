@@ -1,12 +1,4 @@
-<!-- ============================================================== -->
-<!-- Page wrapper  -->
-<!-- ============================================================== -->
 <style>
-    /* -----------------------------------------
-  =Default css to make the demo more pretty
--------------------------------------------- */
-
-
     .content2 {
         padding: 15px;
         overflow: hidden;
@@ -150,8 +142,6 @@
         background-color: #4b9cdb;
     }
 
-    /* =Animate the stuff
------------------------- */
     .load-3 .line:nth-last-child(1) {
         animation: loadingC 0.6s 0.1s linear infinite;
     }
@@ -176,20 +166,18 @@
         animation: loadingC 0.6s 0.6s linear infinite;
     }
 
+    @keyframes loadingC {
+        0 {
+            transform: translate(0, 0);
+        }
 
-    .load-4 .ring-1 {
-        animation: loadingD 1.5s 0.3s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
-    }
+        50% {
+            transform: translate(0, 15px);
+        }
 
-    .load-5 .ball-holder {
-        animation: loadingE 1.3s linear infinite;
-    }
-
-    .load-6 .letter {
-        animation-name: loadingF;
-        animation-duration: 1.6s;
-        animation-iteration-count: infinite;
-        animation-direction: linear;
+        100% {
+            transform: translate(0, 0);
+        }
     }
 
     .l-1 {
@@ -256,7 +244,6 @@
     .load-10 .bar {
         animation: loadingJ 2s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
     }
-
 </style>
 
 <div class="page-wrapper">
@@ -400,7 +387,21 @@
 
                                     <hr>
                                     <div class="sl-item">
-                                        <img src="<?= base_url($this->session->userdata('user_signature')); ?>" alt="" class="img-fluid rounded" id="img-sign">
+                                        <div class="load-wrapp wrapp_sign" style="display:none">
+                                            <div class="load-3">
+                                                <p>Cargando Imagen</p>
+                                                <div class="line"></div>
+                                                <div class="line"></div>
+                                                <div class="line"></div>
+                                                <div class="line"></div>
+                                                <div class="line"></div>
+                                                <div class="line"></div>
+                                            </div>
+                                        </div>
+                                        <div id="img_wrapp_sign">
+                                            <img src="<?= base_url($this->session->userdata('user_signature')); ?>" alt="" class="img-fluid rounded" id="img-sign">
+                                        </div>
+
                                         <br>
                                         <div class="fileupload btn btn-primary btn-rounded waves-effect waves-light">
                                             <span><i class="fas fa-upload"></i> &nbsp; Subir Imagen de Firma</span>

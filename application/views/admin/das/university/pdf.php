@@ -15,9 +15,16 @@ class PDF extends FPDF
   }
 }
 
+$url = 'assets/images/qr/uni' .  $request->id_univ . '.png';
+$url2 = base_url() . 'das/pdf-universidad/' . $request->id_univ;
+
+if (!file_exists($url)) {
+
+  qr($url, $url2, $request->id_univ);
+}
 
 $path = base_url() . "assets/images/docuniversity/";
-$path2 = base_url() ;
+$path2 = base_url();
 
 if ($request->person == "2") {
   $fam = $request->relationship . " con Nombre " .  $request->uni_name_fam . " " .  $request->uni_last_fam . " y CIF " . $request->uni_cift_fam;
