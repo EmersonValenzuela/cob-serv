@@ -149,7 +149,13 @@
 			$r = $this->session->set_userdata('user_img_cip', $imageName);
 
 
-			echo $imageName;
+			$jsonData['status'] = 1;
+			$jsonData['img'] = $imageName;
+
+
+			//Mostrando mi respuesta en formato Json
+			header('Content-type: application/json; charset=utf-8');
+			echo json_encode($jsonData);
 		}
 		public function upImgSign()
 		{
@@ -169,13 +175,20 @@
 			$r = $this->session->set_userdata('user_signature', $imageName);
 
 
-			echo $imageName;
+
+			$jsonData['status'] = 1;
+			$jsonData['img'] = $imageName;
+
+
+			//Mostrando mi respuesta en formato Json
+			header('Content-type: application/json; charset=utf-8');
+			echo json_encode($jsonData);
 		}
 
 		public function logout()
 		{
 
-			$array_items = array('user_id', 'user_type', 'user_name', 'user_email', 'user_phone', 'user_cip', 'user_dni', 'is_user_login','user_signature','user_img_dni','user_img_cip','user_img_profile','user_range');
+			$array_items = array('user_id', 'user_type', 'user_name', 'user_email', 'user_phone', 'user_cip', 'user_dni', 'is_user_login', 'user_signature', 'user_img_dni', 'user_img_cip', 'user_img_profile', 'user_range');
 
 			$this->session->unset_userdata($array_items);
 

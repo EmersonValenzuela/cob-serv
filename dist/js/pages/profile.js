@@ -180,15 +180,12 @@ $("#modal-dni").init(() => {
 });
 $("#cut-dni").on("click", () => {
 	let canva = cropper.getCroppedCanvas({
-			width: 160,
-			height: 160,
+			width: 360,
 		}),
 		image = $("#img-cropp-dni").val(),
 		input = $("#input-dni").val(),
 		wrapp = $(".wrapp_"),
 		img = $("#img_wrapp");
-
-	// inicializando la barra de progreso
 
 	canva.toBlob(function (blob) {
 		var reader = new FileReader();
@@ -317,9 +314,13 @@ $("#modal-cip").init(() => {
 	};
 });
 $("#cut-cip").on("click", () => {
-	let canva = cropper.getCroppedCanvas();
-	let image = document.getElementById("img-cropp-cip");
-	let input = document.getElementById("input-cip");
+	let canva = cropper.getCroppedCanvas({
+			width: 360,
+		}),
+		image = $("#img-cropp-cip"),
+		input = $("#input-cip"),
+		wrapp = $(".wrapp_cip"),
+		img = $("#img_wrapp_cip");
 
 	canva.toBlob(function (blob) {
 		var reader = new FileReader();
@@ -330,27 +331,41 @@ $("#cut-cip").on("click", () => {
 			$.ajax({
 				url: "admin/dashboard/upImgCip",
 				method: "POST",
+				dataType: "json",
 				data: { image: base64data },
-				success: function (data) {
-					$("#img-cip").attr("src", data);
-
-					image.src = "";
-					input.value = "";
-					cropper.destroy();
+				beforeSend: () => {
+					wrapp.fadeIn();
+					img.fadeOut();
 
 					$("#modal-cip").addClass("remove");
 					$("#content-cip").addClass("remove");
 
 					$("#modal-cip").removeClass("active");
 					$("#content-cip").removeClass("active");
-					successMsg(
-						"Imagen CIP Actualizado",
-						"Su imagen de CIP ha sido actualizado correctamente",
-						"#ff6849",
-						"success"
-					);
 				},
-			});
+			})
+				.done((data) => {
+					if (data.status === 1) {
+						wrapp.fadeOut();
+						img.fadeIn();
+
+						$("#img-cip").attr("src", data.img);
+
+						image.src = "";
+						input.value = "";
+						cropper.destroy();
+
+						successMsg(
+							"Imagen CIP Actualizado",
+							"Su imagen de CIP ha sido actualizado correctamente",
+							"#ff6849",
+							"success"
+						);
+					}
+				})
+				.fail((err) => {
+					alert();
+				});
 		};
 	});
 });
@@ -432,9 +447,13 @@ $("#modal-sign").init(() => {
 	};
 });
 $("#cut-sign").on("click", () => {
-	let canva = cropper.getCroppedCanvas();
-	let image = document.getElementById("img-cropp-sign");
-	let input = document.getElementById("input-sign");
+	let canva = cropper.getCroppedCanvas({
+			width: 360,
+		}),
+		image = $("#img-cropp-sign"),
+		input = $("#input-sign"),
+		wrapp = $(".wrapp_"),
+		img = $("#img_wrapp");
 
 	canva.toBlob(function (blob) {
 		var reader = new FileReader();
@@ -446,26 +465,37 @@ $("#cut-sign").on("click", () => {
 				url: "admin/dashboard/upImgSign",
 				method: "POST",
 				data: { image: base64data },
-				success: function (data) {
-					$("#img-sign").attr("src", data);
 
-					image.src = "";
-					input.value = "";
-					cropper.destroy();
+				beforeSend: () => {
+					wrapp.fadeIn();
+					img.fadeOut();
 
 					$("#modal-sign").addClass("remove");
 					$("#content-sign").addClass("remove");
 
 					$("#modal-sign").removeClass("active");
 					$("#content-sign").removeClass("active");
-					successMsg(
-						"Imagen Firma Actualizado",
-						"Su imagen de Firma ha sido actualizado correctamente",
-						"#ff6849",
-						"success"
-					);
 				},
-			});
+			})
+				.done((data) => {
+					if (data.status === 1) {
+						wrapp.fadeOut();
+						img.fadeIn();
+						$("#img-sign").attr("src", data.img);
+
+						image.src = "";
+						input.value = "";
+						cropper.destroy();
+
+						successMsg(
+							"Imagen Firma Actualizado",
+							"Su imagen de Firma ha sido actualizado correctamente",
+							"#ff6849",
+							"success"
+						);
+					}
+				})
+				.fail((err) => {});
 		};
 	});
 });

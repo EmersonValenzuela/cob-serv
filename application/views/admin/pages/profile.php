@@ -39,12 +39,7 @@
         clear: both;
     }
 
-    /* -----------------------------------------
-  =CSS3 Loading animations
--------------------------------------------- */
 
-    /* =Elements style
----------------------- */
     .load-wrapp {
         float: left;
         width: 100%;
@@ -157,30 +152,6 @@
 
     /* =Animate the stuff
 ------------------------ */
-    .load-1 .line:nth-last-child(1) {
-        animation: loadingA 1.5s 1s infinite;
-    }
-
-    .load-1 .line:nth-last-child(2) {
-        animation: loadingA 1.5s 0.5s infinite;
-    }
-
-    .load-1 .line:nth-last-child(3) {
-        animation: loadingA 1.5s 0s infinite;
-    }
-
-    .load-2 .line:nth-last-child(1) {
-        animation: loadingB 1.5s 1s infinite;
-    }
-
-    .load-2 .line:nth-last-child(2) {
-        animation: loadingB 1.5s 0.5s infinite;
-    }
-
-    .load-2 .line:nth-last-child(3) {
-        animation: loadingB 1.5s 0s infinite;
-    }
-
     .load-3 .line:nth-last-child(1) {
         animation: loadingC 0.6s 0.1s linear infinite;
     }
@@ -192,16 +163,18 @@
     .load-3 .line:nth-last-child(3) {
         animation: loadingC 0.6s 0.3s linear infinite;
     }
+
     .load-3 .line:nth-last-child(4) {
         animation: loadingC 0.6s 0.4s linear infinite;
-    }  
+    }
+
     .load-3 .line:nth-last-child(5) {
         animation: loadingC 0.6s 0.5s linear infinite;
-    }    
+    }
 
     .load-3 .line:nth-last-child(6) {
         animation: loadingC 0.6s 0.6s linear infinite;
-    }    
+    }
 
 
     .load-4 .ring-1 {
@@ -284,142 +257,6 @@
         animation: loadingJ 2s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
     }
 
-    @keyframes loadingA {
-        0 {
-            height: 15px;
-        }
-
-        50% {
-            height: 35px;
-        }
-
-        100% {
-            height: 15px;
-        }
-    }
-
-    @keyframes loadingB {
-        0 {
-            width: 15px;
-        }
-
-        50% {
-            width: 35px;
-        }
-
-        100% {
-            width: 15px;
-        }
-    }
-
-    @keyframes loadingC {
-        0 {
-            transform: translate(0, 0);
-        }
-
-        50% {
-            transform: translate(0, 15px);
-        }
-
-        100% {
-            transform: translate(0, 0);
-        }
-    }
-
-    @keyframes loadingD {
-        0 {
-            transform: rotate(0deg);
-        }
-
-        50% {
-            transform: rotate(180deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    @keyframes loadingE {
-        0 {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    @keyframes loadingF {
-        0% {
-            opacity: 0;
-        }
-
-        100% {
-            opacity: 1;
-        }
-    }
-
-    @keyframes loadingG {
-        0% {
-            transform: translate(0, 0) rotate(0deg);
-        }
-
-        50% {
-            transform: translate(70px, 0) rotate(360deg);
-        }
-
-        100% {
-            transform: translate(0, 0) rotate(0deg);
-        }
-    }
-
-    @keyframes loadingH {
-        0% {
-            width: 15px;
-        }
-
-        50% {
-            width: 35px;
-            padding: 4px;
-        }
-
-        100% {
-            width: 15px;
-        }
-    }
-
-    @keyframes loadingI {
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    @keyframes bounce {
-
-        0%,
-        100% {
-            transform: scale(0);
-        }
-
-        50% {
-            transform: scale(1);
-        }
-    }
-
-    @keyframes loadingJ {
-
-        0%,
-        100% {
-            transform: translate(0, 0);
-        }
-
-        50% {
-            transform: translate(80px, 0);
-            background-color: #f5634a;
-            width: 25px;
-        }
-    }
 </style>
 
 <div class="page-wrapper">
@@ -530,7 +367,7 @@
                                             </div>
                                         </div>
                                         <div id="img_wrapp">
-                                        <img src="<?= base_url($this->session->userdata('user_img_dni')); ?>" alt="" class="img-fluid rounded" id="img-dni">
+                                            <img src="<?= base_url($this->session->userdata('user_img_dni')); ?>" alt="" class="img-fluid rounded" id="img-dni">
                                         </div>
 
                                         <div class="fileupload btn btn-primary btn-rounded waves-effect waves-light">
@@ -540,7 +377,20 @@
                                     </div>
                                     <hr>
                                     <div class="sl-item">
-                                        <img src="<?= base_url($this->session->userdata('user_img_cip')); ?>" alt="" class="img-fluid rounded" id="img-cip"><br>
+                                        <div class="load-wrapp wrapp_cip" style="display:none">
+                                            <div class="load-3">
+                                                <p>Cargando Imagen</p>
+                                                <div class="line"></div>
+                                                <div class="line"></div>
+                                                <div class="line"></div>
+                                                <div class="line"></div>
+                                                <div class="line"></div>
+                                                <div class="line"></div>
+                                            </div>
+                                        </div>
+                                        <div id="img_wrapp_cip">
+                                            <img src="<?= base_url($this->session->userdata('user_img_cip')); ?>" alt="" class="img-fluid rounded" id="img-cip"><br>
+                                        </div>
                                         <div class="fileupload btn btn-primary btn-rounded waves-effect waves-light">
                                             <span><i class="fas fa-upload"></i> &nbsp; Subir Imagen de CIP</span>
                                             <input type="file" class="upload" name="input-cip" id="input-cip" accept=".png,.jpg,.jpeg">

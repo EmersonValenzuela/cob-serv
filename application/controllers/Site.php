@@ -164,8 +164,8 @@ class Site extends CI_Controller
 				'is_user_login' => TRUE,
 				'user_range' => $rowData->range_user,
 				'user_signature' => $rowData->signature_user,
-				'user_img_dni' => $rowData->cip_image_user,
-				'user_img_cip' => $rowData->dni_image_user,
+				'user_img_dni' => $rowData->dni_image_user,
+				'user_img_cip' => $rowData->cip_image_user,
 				'user_img_profile' => $rowData->img_user
 
 			);
