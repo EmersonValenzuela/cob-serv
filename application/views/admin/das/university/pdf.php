@@ -126,6 +126,7 @@ $pdf->Cell(201, 5, utf8_decode('02 Copias de la ultima boleta de pago de la Univ
 $pdf->Cell(201, 5, utf8_decode('02 Copias de CIP y DNI (Titular)'), '', 1, '', false);
 
 $pdf->Cell(201, 5, utf8_decode('02 Copias de CIF y DNI (Familiar)'), '', 1, '', false);
+$pdf->Image($url,  170,262,-90);
 
 
 $pdf->AddPage();
@@ -147,6 +148,7 @@ if ($request->type_process == "1") {
   $pdf->Cell(190, 5, 'Copia de Consolidado de Notas (último ciclo)', 'LRTB', 1, 'C', true);
   $pdf->Image($path . $request->uni_grades,  27, 40, 160, 180);
 }
+$pdf->Image($url,  170,262,-90);
 
 
 $pdf->AddPage();
@@ -168,6 +170,8 @@ $pdf->Cell(190, 5, 'Copia de CIP y DNI Titular', 'LRTB', 1, 'C', true);
 
 $pdf->Image($path2 . $request->dni_image_user, 30, 30, 156, 90);
 $pdf->Image($path2 . $request->cip_image_user, 30, 140, 156, 90);
+$pdf->Image($url,  170,262,-90);
+
 
 
 if ($request->person == "2") {
@@ -179,6 +183,8 @@ if ($request->person == "2") {
 
   $pdf->Image($path . $request->uni_cif_fam, 30, 30, 156, 90);
   $pdf->Image($path . $request->uni_dni_fam, 30, 140, 156, 90);
+  $pdf->Image($url,  170,262,-90);
+
 }
 
 
