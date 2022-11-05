@@ -75,7 +75,11 @@ class Site extends CI_Controller
 			);
 			$this->session->set_userdata($data);
 
-			redirect(base_url() . 'admin/dashboard', 'refresh');
+			if ($rowData->signature_user = "assets/images/no-photo.jpg" || $rowData->dni_image_user = "assets/images/no-photo.jpg" || $rowData->cip_image_user = "assets/images/no-photo.jpg") {
+				redirect(base_url() . 'mi-perfil', 'refresh');
+			} else {
+				redirect(base_url() . 'admin/dashboard', 'refresh');
+			}
 		}
 
 		$this->load->view('login');
@@ -125,7 +129,6 @@ class Site extends CI_Controller
 				//Mostrando mi respuesta en formato Json
 				header('Content-type: application/json; charset=utf-8');
 				echo json_encode($jsonData);
-
 			}
 		}
 	}
