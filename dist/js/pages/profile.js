@@ -64,9 +64,10 @@ $("#close").on("click", () => {
 
 $("#cut").on("click", () => {
 	let canva = cropper.getCroppedCanvas({
-		width: 360,
-	});
-	let image = $("#crop-image"),
+			width: 360,
+		}),
+		image = $("#crop-image"),
+		img = document.getElementById("img-cropper"),
 		input = $("#input-file"),
 		spinner = $("#spinner_profile");
 
@@ -79,35 +80,45 @@ $("#cut").on("click", () => {
 			$.ajax({
 				url: "admin/dashboard/upImgUser",
 				method: "POST",
+				dataType: "json",
+
 				data: { image: base64data },
+
 				beforeSend: () => {
-					spinner.addClass("style", "width: 7rem; height: 7rem;");
+					spinner.fadeIn();
 					image.fadeOut();
+
 					$("#modalP").addClass("remove");
 					$("#modal-content").addClass("remove");
 
 					$("#modalP").removeClass("active");
 					$("#modal-content").removeClass("active");
 				},
-			}).done((data) => {
+			})
+				.done((data) => {
+					if (data.status === 1) {
+						spinner.fadeOut();
+						image.fadeIn();
 
-				spinner.fadeOut();
-				image.fadeIn();
-				$("#crop-image").attr("src", data);
-				$("#crop-img").attr("src", data);
+						$("#crop-image").attr("src", data.img);
+						$("#crop-img").attr("src", data.img);
 
-				image.src = "";
-				input.value = "";
+						img.src = "";
+						input.value = "";
 
-				cropper.destroy();
+						cropper.destroy();
 
-				successMsg(
-					"Imagen de Perfil Actualizado",
-					"Su imagen de perfil ha sido actualizado correctamente",
-					"#ff6849",
-					"success"
-				);
-			});
+						successMsg(
+							"Imagen de Perfil Actualizado",
+							"Su imagen de perfil ha sido actualizado correctamente",
+							"#ff6849",
+							"success"
+						);
+					}
+				})
+				.fail((err) => {
+					alert(base64data);
+				});
 		};
 	});
 });

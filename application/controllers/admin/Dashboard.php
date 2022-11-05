@@ -101,7 +101,13 @@
 			$r = $this->session->set_userdata('user_img_profile', $imageName);
 
 
-			echo $imageName;
+			$jsonData['status'] = 1;
+			$jsonData['img'] = $imageName;
+
+
+			//Mostrando mi respuesta en formato Json
+			header('Content-type: application/json; charset=utf-8');
+			echo json_encode($jsonData);
 		}
 
 		public function upImgDni()
