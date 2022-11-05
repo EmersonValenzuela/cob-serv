@@ -81,7 +81,7 @@ $("#cut").on("click", () => {
 				method: "POST",
 				data: { image: base64data },
 				beforeSend: () => {
-					spinner.fadeIn();
+					spinner.addClass("style", "width: 7rem; height: 7rem;");
 					image.fadeOut();
 					$("#modalP").addClass("remove");
 					$("#modal-content").addClass("remove");
