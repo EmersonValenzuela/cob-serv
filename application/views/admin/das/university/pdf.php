@@ -87,7 +87,7 @@ if ($request->person == "2") {
 } else {
   $pdf->Ln();
   $pdf->Ln();
-  $pdf->Image(base_url() . $request->signature_user, 145, 155, 40, 19);
+  $pdf->Image(base_url() . $request->signature_user, 145, 145, 40, 19);
 }
 
 $pdf->Cell(180, 7, ' ..............................................', '', 1, 'R', false);
@@ -161,6 +161,7 @@ $pdf->SetFont('Arial', '', 10);
 $pdf->Ln();
 
 $pdf->Image($path . $request->uni_tuition, 27, 40, 160, 180);
+$pdf->Image($url,  170,262,-90);
 
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 10);

@@ -63,9 +63,12 @@ $("#close").on("click", () => {
 });
 
 $("#cut").on("click", () => {
-	let canva = cropper.getCroppedCanvas();
-	let image = document.getElementById("img-cropper");
-	let input = document.getElementById("input-file");
+	let canva = cropper.getCroppedCanvas({
+		width: 360,
+	});
+	let image = $("#crop-image"),
+		input = $("#input-file"),
+		spinner = $("#spinner_profile");
 
 	canva.toBlob(function (blob) {
 		var reader = new FileReader();
@@ -77,26 +80,33 @@ $("#cut").on("click", () => {
 				url: "admin/dashboard/upImgUser",
 				method: "POST",
 				data: { image: base64data },
-				success: function (data) {
-					$("#crop-image").attr("src", data);
-					$("#crop-img").attr("src", data);
-
-					image.src = "";
-					input.value = "";
-					cropper.destroy();
-
+				beforeSend: () => {
+					spinner.fadeIn();
+					image.fadeOut();
 					$("#modalP").addClass("remove");
 					$("#modal-content").addClass("remove");
 
 					$("#modalP").removeClass("active");
 					$("#modal-content").removeClass("active");
-					successMsg(
-						"Imagen de Perfil Actualizado",
-						"Su imagen de perfil ha sido actualizado correctamente",
-						"#ff6849",
-						"success"
-					);
 				},
+			}).done((data) => {
+
+				spinner.fadeOut();
+				image.fadeIn();
+				$("#crop-image").attr("src", data);
+				$("#crop-img").attr("src", data);
+
+				image.src = "";
+				input.value = "";
+
+				cropper.destroy();
+
+				successMsg(
+					"Imagen de Perfil Actualizado",
+					"Su imagen de perfil ha sido actualizado correctamente",
+					"#ff6849",
+					"success"
+				);
 			});
 		};
 	});

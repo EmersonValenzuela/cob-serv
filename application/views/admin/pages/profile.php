@@ -279,16 +279,25 @@
             <div class="col-lg-4 col-xlg-3 col-md-5">
                 <div class="card">
                     <div class="card-body">
-                        <center class="m-t-30"> <img src="<?= base_url() ?><?= $this->session->userdata('user_img_profile') ?>" class="img-circle" width="150" id="crop-image" />
+                        <center class="m-t-30"> 
+                            <img src="<?= base_url() ?><?= $this->session->userdata('user_img_profile') ?>" class="img-circle" width="150" id="crop-image"/>
+                            <div class="spinner-grow text-primary" style="width: 0; height: 0;" role="status" id="spinner_profile" >
+                                <span class="sr-only">Loading...</span>
+                            </div>
                             <h4 class="card-title m-t-10"><?= $this->session->userdata('user_name') ?></h4>
                             <h4 class="card-title m-t-10"><?= $this->session->userdata('user_lastname') ?></h4>
                             <h4 class="card-title m-t-10"><?= "CIP: " . $this->session->userdata('user_cip') ?></h4>
                             <h4 class="card-title m-t-10"><?= "DNI: " . $this->encryption->decrypt($this->session->userdata('user_dni')) ?></h4>
+
                             <div class="fileupload btn btn-primary btn-rounded waves-effect waves-light">
                                 <span><i class="fas fa-upload"></i> &nbsp; Subir Imagen de Perfil</span>
                                 <input type="file" class="upload" name="input-file" id="input-file" accept=".png,.jpg,.jpeg">
                             </div>
+
                             <hr>
+
+
+                        </center>
                     </div>
                 </div>
             </div>
