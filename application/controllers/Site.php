@@ -15,7 +15,11 @@ class Site extends CI_Controller
 	{
 
 		if ($this->session->userdata('user_type') == "2") {
-			redirect(base_url() . 'admin/dashboard', 'refresh');
+			if ($this->session->userdata('signature_user') == "assets/images/no-photo.jpg" || $this->session->userdata('user_img_cip') == "assets/images/no-photo.jpg" || $this->session->userdata('user_img_dni') == "assets/images/no-photo.jpg") {
+				redirect(base_url() . 'mi-perfil', 'refresh');
+			} else {
+				redirect(base_url() . 'admin/dashboard', 'refresh');
+			}
 		} elseif ($this->session->userdata('is_user_login') == "1") {
 		}
 
@@ -47,8 +51,8 @@ class Site extends CI_Controller
 				'user_signature' => $rowData->signature_user,
 				'user_img_dni' => $rowData->dni_image_user,
 				'user_img_cip' => $rowData->cip_image_user,
-				'user_img_profile' => $rowData->img_user
-
+				'user_img_profile' => $rowData->img_user,
+				'cod_validation' => $rowData->cod_validation_user
 
 			);
 			$this->session->set_userdata($data);
@@ -70,12 +74,14 @@ class Site extends CI_Controller
 				'user_signature' => $rowData->signature_user,
 				'user_img_dni' => $rowData->dni_image_user,
 				'user_img_cip' => $rowData->cip_image_user,
-				'user_img_profile' => $rowData->img_user
+				'user_img_profile' => $rowData->img_user,
+				'cod_validation' => $rowData->cod_validation_user
+
 
 			);
 			$this->session->set_userdata($data);
 
-			if ($rowData->signature_user = "assets/images/no-photo.jpg" || $rowData->dni_image_user = "assets/images/no-photo.jpg" || $rowData->cip_image_user = "assets/images/no-photo.jpg") {
+			if ($rowData->signature_user == "assets/images/no-photo.jpg" || $rowData->dni_image_user == "assets/images/no-photo.jpg" || $rowData->cip_image_user == "assets/images/no-photo.jpg") {
 				redirect(base_url() . 'mi-perfil', 'refresh');
 			} else {
 				redirect(base_url() . 'admin/dashboard', 'refresh');
@@ -169,7 +175,9 @@ class Site extends CI_Controller
 				'user_signature' => $rowData->signature_user,
 				'user_img_dni' => $rowData->dni_image_user,
 				'user_img_cip' => $rowData->cip_image_user,
-				'user_img_profile' => $rowData->img_user
+				'user_img_profile' => $rowData->img_user,
+				'cod_validation' => $rowData->cod_validation_user
+
 
 			);
 
@@ -236,7 +244,7 @@ class Site extends CI_Controller
 
 	public function logout()
 	{
-		$array_items = array('user_id', 'user_type', 'user_name', 'user_email', 'user_phone', 'user_cip', 'user_dni', 'is_user_login', 'signature_user');
+		$array_items = array('user_id', 'user_type', 'user_name', 'user_email', 'user_phone', 'user_cip', 'user_dni', 'is_user_login', 'signature_user', 'cod_validation');
 
 		$this->session->unset_userdata($array_items);
 

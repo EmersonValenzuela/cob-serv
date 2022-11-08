@@ -1,4 +1,5 @@
 $(function () {
+
 	//Validando si existe la Cedula en BD antes de enviar el Form
 	$("#cip").on("keyup", function () {
 		var cip = $("#cip").val();
@@ -103,6 +104,7 @@ $(function () {
 });
 
 $(document).ready(() => {
+
 	$("#msform").on("submit", (e) => {
 		e.preventDefault();
 		var f = $(this);
@@ -148,7 +150,10 @@ $(document).ready(() => {
 			);
 		}
 	});
+
 });
+
+
 function successMsg(d, f, g, h) {
 	$.toast({
 		heading: d,

@@ -1,4 +1,47 @@
 <style>
+    p {
+        margin: 0;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    .contentBox {
+        width: 600px;
+        height: auto;
+        margin: 0 40px;
+    }
+
+    #menu li {
+        float: left;
+        list-style: none;
+    }
+
+    #menu li a {
+        display: block;
+        padding: 20px 50px;
+        background: #CCC;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #FFF;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .8);
+        z-index: 5;
+    }
+
+    .overlay-relative {
+        position: relative;
+        z-index: 7;
+    }
+
     .content2 {
         padding: 15px;
         overflow: hidden;
@@ -255,7 +298,7 @@
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
         <div class="row page-titles">
-            <div class="col-md-5 align-self-center">
+            <div class="col-md-5 align-self-center" id="step5">
                 <h4 class="text-themecolor">Mi Perfil</h4>
             </div>
             <div class="col-md-7 align-self-center text-end">
@@ -277,18 +320,18 @@
         <div class="row">
             <!-- Column -->
             <div class="col-lg-4 col-xlg-3 col-md-5">
-                <div class="card">
+                <div class="card" id="step1">
                     <div class="card-body">
-                        <center class="m-t-30"> 
-                            <img src="<?= base_url() ?><?= $this->session->userdata('user_img_profile') ?>" class="img-circle" width="150" id="crop-image"/>
-                            <div class="spinner-grow text-primary" style="width: 0; height: 0;" role="status" id="spinner_profile" >
+                        <center class="m-t-30">
+                            <img src="<?= base_url() ?><?= $this->session->userdata('user_img_profile') ?>" class="img-circle" width="150" id="crop-image" />
+                            <div class="spinner-grow text-primary" style="width: 0; height: 0;" role="status" id="spinner_profile">
                                 <span class="sr-only">Loading...</span>
                             </div>
                             <h4 class="card-title m-t-10"><?= $this->session->userdata('user_name') ?></h4>
                             <h4 class="card-title m-t-10"><?= $this->session->userdata('user_lastname') ?></h4>
                             <h4 class="card-title m-t-10"><?= "CIP: " . $this->session->userdata('user_cip') ?></h4>
                             <h4 class="card-title m-t-10"><?= "DNI: " . $this->encryption->decrypt($this->session->userdata('user_dni')) ?></h4>
-
+                            
                             <div class="fileupload btn btn-primary btn-rounded waves-effect waves-light">
                                 <span><i class="fas fa-upload"></i> &nbsp; Subir Imagen de Perfil</span>
                                 <input type="file" class="upload" name="input-file" id="input-file" accept=".png,.jpg,.jpeg">
@@ -307,12 +350,12 @@
                 <div class="card">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs profile-tab" role="tablist">
-                        <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#profile" role="tab">Editar Perfil</a> </li>
-                        <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#imge" role="tab">Editar Imagen DNI, CIP y Firma</a> </li>
+                        <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#profile" role="tab" id="step2"><strong>Editar Perfil</strong> </a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#imge" role="tab" id="step4"><strong>Imagen DNI, CIP y Firma</strong></a> </li>
                     </ul>
                     <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="profile" role="tabpanel">
+                    <div class="tab-content" >
+                        <div class="tab-pane active" id="profile" role="tabpanel" >
                             <div class="card-body">
                                 <form class="form-horizontal form-material" id="form-profile" enctype="multipart/form-data">
                                     <div class="form-group">
@@ -441,6 +484,8 @@
     <!-- ============================================================== -->
     <!-- End Page wrapper  -->
     <!-- ============================================================== -->
+
+    <input type="hidden" value="<?=$this->session->userdata('cod_validation')?>" id="cod_val">
 
     <div class="modal" id="modalP">
         <div class="modal-content" id="modal-content">

@@ -1,97 +1,221 @@
-<html>
-    <head>
-        <script src="https://cdn.jsdelivr.net/gh/jamesssooi/Croppr.js@2.3.0/dist/croppr.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/gh/jamesssooi/Croppr.js@2.3.0/dist/croppr.min.css" rel="stylesheet"/>
-        <title>Recorta tu imagen y transforma a base64</title>
-        <script>
-         document.addEventListener('DOMContentLoaded', () => {
+<!DOCTYPE html>
+<html lang="en">
 
-             // Input File
-             const inputImage = document.querySelector('#image');
-             // Nodo donde estará el editor
-             const editor = document.querySelector('#editor');
-             // El canvas donde se mostrará la previa
-             const miCanvas = document.querySelector('#preview');
-             // Contexto del canvas
-             const contexto = miCanvas.getContext('2d');
-             // Ruta de la imagen seleccionada
-             let urlImage = undefined;
-             // Evento disparado cuando se adjunte una imagen
-             inputImage.addEventListener('change', abrirEditor, false);
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/css/hopscotch.min.css">
+    <link href="<?= base_url(); ?>dist/css/style.min.css" rel="stylesheet">
 
-             /**
-              * Método que abre el editor con la imagen seleccionada
-              */
-             function abrirEditor(e) {
-                 // Obtiene la imagen
-                 urlImage = URL.createObjectURL(e.target.files[0]);
+</head>
+<style>
+    p {
+        margin: 0;
+    }
 
-                 // Borra editor en caso que existiera una imagen previa
-                 editor.innerHTML = '';
-                 let cropprImg = document.createElement('img');
-                 cropprImg.setAttribute('id', 'croppr');
-                 editor.appendChild(cropprImg);
+    .clear {
+        clear: both;
+    }
 
-                 // Limpia la previa en caso que existiera algún elemento previo
-                 contexto.clearRect(0, 0, miCanvas.width, miCanvas.height);
+    .contentBox {
+        width: 600px;
+        height: auto;
+        margin: 0 40px;
+    }
 
-                 // Envia la imagen al editor para su recorte
-                 document.querySelector('#croppr').setAttribute('src', urlImage);
+    #menu li {
+        float: left;
+        list-style: none;
+    }
 
-                 // Crea el editor
-                 new Croppr('#croppr', {
-                     aspectRatio: 1,
-                     startSize: [70, 70],
-                     onCropEnd: recortarImagen
-                 })
-             }
+    #menu li a {
+        display: block;
+        padding: 20px 50px;
+        background: #CCC;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #FFF;
+    }
 
-             /**
-              * Método que recorta la imagen con las coordenadas proporcionadas con croppr.js
-              */
-             function recortarImagen(data) {
-                 // Variables
-                 const inicioX = data.x;
-                 const inicioY = data.y;
-                 const nuevoAncho = data.width;
-                 const nuevaAltura = data.height;
-                 const zoom = 1;
-                 let imagenEn64 = '';
-                 // La imprimo
-                 miCanvas.width = nuevoAncho;
-                 miCanvas.height = nuevaAltura;
-                 // La declaro
-                 let miNuevaImagenTemp = new Image();
-                 // Cuando la imagen se carge se procederá al recorte
-                 miNuevaImagenTemp.onload = function() {
-                     // Se recorta
-                     contexto.drawImage(miNuevaImagenTemp, inicioX, inicioY, nuevoAncho * zoom, nuevaAltura * zoom, 0, 0, nuevoAncho, nuevaAltura);
-                     // Se transforma a base64
-                     imagenEn64 = miCanvas.toDataURL("image/jpeg");
-                     // Mostramos el código generado
-                     document.querySelector('#base64').textContent = imagenEn64;
-                 }
-                 // Proporciona la imagen cruda, sin editarla por ahora
-                 miNuevaImagenTemp.src = urlImage;
-             }
-         });
-        </script>
-    </head>
-    <body>
-        <h2>1 Introduce tu imagen</h2>
-        <!-- Input file donde se adjunta la imagen -->
-        <input type="file" id="image">
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .8);
+        z-index: 5;
+    }
 
-        <h2>2 Recorta</h2>
-        <!-- Editor donde se recortará la imagen con la ayuda de croppr.js -->
-        <div id="editor"></div>
+    .overlay-relative {
+        position: relative;
+        z-index: 7;
+    }
 
-        <h2>3 Previsualiza el resultado</h2>
-        <!-- Previa del recorte -->
-        <canvas id="preview"></canvas>
+    .helper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 5px;
+        background: #FFF;
+        border-radius: 4px;
+        z-index: 6;
+    }
+</style>
 
-        <h2>4 Resultado en Base64</h2>
-        <!-- Muestra de la imagen recortada en Base64 -->
-        <code id="base64"></code>
-    </body>
+<body>
+    <ul id="menu">
+        <li id="step1"><a href="#">Home</a></li>
+        <li id="step2"><a href="#">About</a></li>
+        <li id="step3"><a href="#">Portfolio</a></li>
+        <li id="step4"><a href="#">Contact</a></li>
+        <div class="clear"></div>
+    </ul>
+
+    <div class="contentBox">
+        <p id="step5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id arcu risus. Quisque fringilla consectetur arcu, quis pulvinar lorem porttitor id. Praesent porttitor id eros vitae aliquet. Donec porttitor enim sed rhoncus mollis. Maecenas vulputate dictum nisi non sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vulputate vehicula eros sed vulputate. Aliquam nisi urna, tristique eget lorem vitae, ullamcorper dapibus elit. Pellentesque vestibulum quam vel arcu rhoncus, quis tristique tellus interdum. Vivamus pharetra mauris sit amet magna dignissim, convallis rutrum arcu pharetra. Maecenas laoreet interdum maximus. Cras fringilla suscipit condimentum. Phasellus placerat fermentum luctus. Integer congue tempus magna non gravida. Pellentesque malesuada nunc porta dolor sollicitudin, non varius nunc sollicitudin. Phasellus commodo nec lectus volutpat facilisis.
+
+            In convallis urna erat, ornare posuere neque posuere vitae. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec fringilla malesuada nunc a ultricies. Aenean posuere nec libero eu fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada justo porttitor varius viverra. Sed augue nisi, bibendum at faucibus et, vulputate non sapien. Nullam a ante a lectus fringilla maximus. Nunc eget ultricies nisi. Aliquam magna est, posuere ac venenatis nec, pulvinar nec orci. Praesent consequat volutpat elementum.</p>
+    </div>
+<script src="<?= base_url(); ?>assets/node_modules/jquery/dist/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/js/hopscotch.min.js"></script>
+    <script>
+        hopscotch.registerHelper('addOverlay', function() {
+            $('body').append('<div class="overlay"></div>');
+        });
+
+        hopscotch.registerHelper('removeOverlay', function() {
+            $('.overlay').fadeOut(function() {
+                $(this).remove();
+                $('.helper').remove();
+            });
+        });
+
+        hopscotch.listen('show', function() {
+            var elementObject = $(hopscotch.getCurrTarget(tour));
+            var element = $('#' + elementObject[0].id);
+
+            element.prev().removeClass('overlay-relative');
+            element.addClass('overlay-relative');
+
+            if ($('.helper').length !== 0) {
+
+                // Use Helper Layer for hilight target element.
+                var helper = $('.helper');
+                var padding = 5;
+                var helperPosX = element.position().left - padding;
+                var helperPosY = element.position().top - padding;
+                var targetWidth = element.outerWidth();
+                var targetHeight = element.outerHeight();
+
+                console.log('PositionX : ' + helperPosX + ' PositionY : ' + helperPosY);
+                console.log('TargetWidth : ' + targetWidth + ' TargetHeight : ' + targetHeight);
+
+                helper.css('width', targetWidth);
+                helper.css('height', targetHeight);
+                helper.offset({
+                    left: helperPosX,
+                    top: helperPosY
+                });
+
+            } else {
+
+                // Add Helper Layer for highlight target element.
+                var newHelper = '<div class="helper"></div>';
+                $('body').append(newHelper);
+
+                var helper = $('.helper');
+                var padding = 5;
+                var helperPosX = element.position().left - padding;
+                var helperPosY = element.position().top - padding;
+                var targetWidth = element.outerWidth();
+                var targetHeight = element.outerHeight();
+
+                console.log('PositionX : ' + helperPosX + ' PositionY : ' + helperPosY);
+                console.log('TargetWidth : ' + targetWidth + ' TargetHeight : ' + targetHeight);
+
+                helper.css('width', targetWidth);
+                helper.css('height', targetHeight);
+                helper.offset({
+                    left: helperPosX,
+                    top: helperPosY
+                });
+            }
+
+        });
+
+        var tour = {
+            id: "hello-hopscotch",
+            steps: [{
+                    title: "My Header",
+                    content: "This is the header of my page.",
+                    target: "step1",
+                    placement: "bottom",
+                    zindex: 999999,
+                    yOffset: 10,
+                    onNext: function() {
+                        $('#step1').removeClass('overlay-relative');
+                        $('.helper').remove();
+                    }
+                },
+                {
+                    title: "My Header",
+                    content: "This is the header of my page.",
+                    target: "step2",
+                    placement: "bottom",
+                    zindex: 999999,
+                    yOffset: 10,
+                    onNext: function() {
+                        $('#step2').removeClass('overlay-relative');
+                        $('.helper').remove();
+                    }
+                },
+                {
+                    title: "My Header",
+                    content: "This is the header of my page.",
+                    target: "step3",
+                    placement: "bottom",
+                    zindex: 999999,
+                    yOffset: 10,
+                    onNext: function() {
+                        $('#step3').removeClass('overlay-relative');
+                        $('.helper').remove();
+                    }
+                },
+                {
+                    title: "My Header",
+                    content: "This is the header of my page.",
+                    target: "step4",
+                    placement: "bottom",
+                    zindex: 999999,
+                    yOffset: 10,
+                    onNext: function() {
+                        $('#step4').removeClass('overlay-relative');
+                        $('.helper').remove();
+                    }
+                },
+                {
+                    title: "My Header",
+                    content: "This is the header of my page.",
+                    target: "step5",
+                    placement: "right",
+                    zindex: 999999,
+                    xOffset: 10,
+                    onNext: function() {
+                        $('#step5').removeClass('overlay-relative');
+                        $('.helper').remove();
+                    }
+                },
+            ],
+            onStart: ["addOverlay"],
+            onEnd: ["removeOverlay"],
+        };
+
+        hopscotch.startTour(tour);
+    </script>
+</body>
+
 </html>

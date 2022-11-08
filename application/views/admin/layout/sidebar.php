@@ -1,4 +1,4 @@
-<body class="skin-default fixed-layout">
+<body class="skin-default fixed-layout" id="body_system">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -57,7 +57,7 @@
                         <!-- ============================================================== -->
                         <!-- Comment -->
                         <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" disabled>
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="ti-user"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end mailbox animated bounceInDown">
@@ -139,14 +139,25 @@
                                 </li>
                             </ul>
                         </li>-->
+                        <?php 
+                            if($this->session->userdata('cod_validation') == ""):
 
-                        <li>
-                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                $in = "in";
+                                $active = "active";
+
+                            else:
+
+                                $in = "";
+                                $active = "";
+
+                            endif;
+                        ?>
+                        <li id="step6">
+                            <a class="has-arrow waves-effect waves-dark <?=$active?>" href="javascript:void(0)" aria-expanded="false">
                                 <i class="fas fa-university"></i>
                                 <span class="hide-menu"> Consultas DAS</span>
                             </a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li>
+                            <ul aria-expanded="false" class="collapse <?=$in?>">
                                     <a class="waves-effect waves-dark" href="<?= base_url('Das/Lista'); ?>">
                                         Lista Solicitudes DAS
                                     </a>

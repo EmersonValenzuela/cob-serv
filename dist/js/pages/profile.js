@@ -485,6 +485,8 @@ $("#cut-sign").on("click", () => {
 			$.ajax({
 				url: "admin/dashboard/upImgSign",
 				method: "POST",
+				dataType: "json",
+
 				data: { image: base64data },
 
 				beforeSend: () => {
@@ -520,6 +522,209 @@ $("#cut-sign").on("click", () => {
 		};
 	});
 });
+
+// tour system
+
+hopscotch.registerHelper("addOverlay", function () {
+	$("body").append('<div class="overlay"></div>');
+});
+
+hopscotch.registerHelper("removeOverlay", function () {
+	$(".overlay").fadeOut(function () {
+		$(this).remove();
+		$(".helper").remove();
+	});
+});
+
+hopscotch.listen("show", function () {
+	var elementObject = $(hopscotch.getCurrTarget(tour));
+	var element = $("#" + elementObject[0].id);
+
+	element.prev().removeClass("overlay-relative");
+	element.addClass("overlay-relative");
+
+	if ($(".helper").length !== 0) {
+		// Use Helper Layer for hilight target element.
+		var helper = $(".helper");
+		var padding = 5;
+		var helperPosX = element.position().left - padding;
+		var helperPosY = element.position().top - padding;
+		var targetWidth = element.outerWidth();
+		var targetHeight = element.outerHeight();
+
+		console.log("PositionX : " + helperPosX + " PositionY : " + helperPosY);
+		console.log(
+			"TargetWidth : " + targetWidth + " TargetHeight : " + targetHeight
+		);
+
+		helper.css("width", targetWidth);
+		helper.css("height", targetHeight);
+		helper.offset({
+			left: helperPosX,
+			top: helperPosY,
+		});
+	} else {
+		// Add Helper Layer for highlight target element.
+		var newHelper = '<div class="helper"></div>';
+		$("body").append(newHelper);
+
+		var helper = $(".helper");
+		var padding = 5;
+		var helperPosX = element.position().left - padding;
+		var helperPosY = element.position().top - padding;
+		var targetWidth = element.outerWidth();
+		var targetHeight = element.outerHeight();
+
+		console.log("PositionX : " + helperPosX + " PositionY : " + helperPosY);
+		console.log(
+			"TargetWidth : " + targetWidth + " TargetHeight : " + targetHeight
+		);
+
+		helper.css("width", targetWidth);
+		helper.css("height", targetHeight);
+		helper.offset({
+			left: helperPosX,
+			top: helperPosY,
+		});
+	}
+});
+
+var tour = {
+	id: "hello-hopscotch",
+	showCloseButton: false,
+	steps: [
+		{
+			title: "Mi foto",
+			content: "Esta sección te permitira cambiar tu foto de perfil",
+			target: "step1",
+			placement: "top",
+			zindex: 999999,
+			yOffset: 10,
+			onNext: function () {
+				$("#step1").removeClass("overlay-relative");
+				$(".helper").remove();
+			},
+		},
+		{
+			title: "Mis datos personales",
+			content: "Esta opción te permitira cambiar tus datos personales",
+			target: "step2",
+			placement: "bottom",
+			zindex: 999999,
+			yOffset: 10,
+			onNext: function () {
+				$("#step2").removeClass("overlay-relative");
+				$(".helper").remove();
+			},
+		},
+		{
+			title: "Formulario Editar Perfil",
+			content: "Aqui modificaras tus datos personales.",
+			target: "profile",
+			placement: "top",
+			zindex: 99999,
+			yOffset: 10,
+			onNext: function () {
+				$("#profile").removeClass("overlay-relative");
+				$("#step4").addClass("active");
+				$(".helper").remove();
+				$("#step2").removeClass("active");
+				$("#profile").removeClass("active");
+				$("#imge").addClass("active");
+			},
+		},
+		{
+			title: "Mi DNI, CIP y Firma",
+			content:
+				"Es obligatorio dentro del sistema tomar fotos a estos documentos.",
+			target: "step4",
+			placement: "top",
+			zindex: 999999,
+			yOffset: 10,
+			xOffset: -100,
+			arrowOffset: 250,
+			onNext: function () {
+				$("#step4").removeClass("overlay-relative");
+				$(".helper").remove();
+			},
+		},
+		{
+			title: "DNI, CIP y Firma",
+			content: "Seleccionar los botones de subir imagen para cada documento.",
+			target: "imge",
+			placement: "top",
+			zindex: 999999,
+			xOffset: 10,
+			onNext: function () {
+				$("#imge").removeClass("overlay-relative");
+				$(".helper").remove();
+			},
+		},
+		{
+			title: "Sección Tramites",
+			content:
+				"En esta sección encontraras los distintos tramites que se pueden realizar dentro del sistema.",
+			target: "step6",
+			placement: "right",
+			zindex: 999999,
+			xOffset: 10,
+			onNext: function () {
+				mgr = hopscotch.getCalloutManager();
+
+				mgr.removeAllCallouts();
+
+				$("#step5").removeClass("overlay-relative");
+				$(".helper").remove();
+			},
+		},
+	],
+	onStart: ["addOverlay"],
+	onEnd: ["removeOverlay"],
+};
+if ($("#cod_val").val() == "") {
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: "btn btn-success",
+			cancelButton: "mr-2 btn btn-danger",
+		},
+	});
+
+	swalWithBootstrapButtons
+		.fire({
+			title: "Bienvenido al Sistema de Tramites Documentarios",
+			text: "Le mostraremos un tutorial acerca del uso de la sección de perfil, Es importante que agregue la imagen de su DNI, CIP y firma para poder realizar los tramites.",
+			type: "info",
+			showCancelButton: true,
+			confirmButtonText: "Comenzar tutorial",
+			cancelButtonText: "No, cancelar",
+			reverseButtons: true,
+		})
+		.then((result) => {
+			if (result.value) {
+				hopscotch.startTour(tour);
+			} else if (
+				// Read more about handling dismissals
+				result.dismiss === Swal.DismissReason.cancel
+			) {
+			}
+
+			$.ajax({
+				url: "admin/dashboard/vld",
+				method: "POST",
+				dataType: "json",
+				data: { vld: 1 },
+				beforeSend: () => {},
+			})
+				.done((data) => {
+					if (data.status == 200) {
+						
+					}
+				})
+				.fail((err) => {
+					alert("Ocurrio un Error" + err.v);
+				});
+		});
+}
 
 //send form data PROFILE
 $("#form-profile").on("submit", function (e) {

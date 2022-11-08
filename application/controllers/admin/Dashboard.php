@@ -26,7 +26,7 @@
 
 				$data['scripts'] = array(
 					'<script src="' . base_url() . 'dist/js/pages/cropper.js"></script>',
-					'<script src="' . base_url() . 'dist/js/crr.js"></script>',
+					'<script src="' . base_url() . 'dist/js/crr.js"></script>'
 
 				);
 			} else {
@@ -45,12 +45,15 @@
 			$data['title'] = 'Perfil';
 			$data['links'] = array(
 				'<link href="' . base_url() . 'dist/css/pages/cropper.css" rel="stylesheet">',
-				'<link href="' . base_url() . 'dist/css/pages/crr.css" rel="stylesheet">'
+				'<link href="' . base_url() . 'dist/css/pages/crr.css" rel="stylesheet">',
+				'<link href="https://cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/css/hopscotch.min.css" rel="stylesheet">'
 			);
 
 			$data['scripts'] = array(
+				'<script src="https://cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/js/hopscotch.min.js"></script>',
 				'<script src="' . base_url() . 'dist/js/pages/cropper.js"></script>',
 				'<script src="' . base_url() . 'dist/js/pages/profile.js"></script>'
+
 
 
 			);
@@ -184,6 +187,23 @@
 
 			$jsonData['status'] = 1;
 			$jsonData['img'] = $imageName;
+
+
+			//Mostrando mi respuesta en formato Json
+			header('Content-type: application/json; charset=utf-8');
+			echo json_encode($jsonData);
+		}
+
+		public function vld()
+		{
+			$vld = $this->input->post('vld');
+
+			$row = $this->Admin_model->update(array('cod_validation_user' => $vld), $this->session->userdata('user_id'), 'tbl_users');
+			$this->session->set_userdata('cod_validation', $vld);
+
+			
+			$jsonData['status'] = 200;
+			$jsonData['v'] = $vld;
 
 
 			//Mostrando mi respuesta en formato Json
